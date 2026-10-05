@@ -1,0 +1,65 @@
+﻿@page
+@model HealthPolicyManagementSystem.Pages.Notifications.CreateModel
+
+@{
+    ViewData["Title"] = "Send Notification";
+}
+
+<h2>Send Notification</h2>
+
+<form method="post">
+
+    <div class="mb-3">
+        <label class="form-label">User</label>
+
+        <select asp-for="Notification.UserID"
+                asp-items="Model.Users"
+                class="form-select">
+
+            <option value="">-- Select User --</option>
+
+        </select>
+
+        <span asp-validation-for="Notification.UserID"
+              class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Notification.Title"
+               class="form-label"></label>
+
+        <input asp-for="Notification.Title"
+               class="form-control" />
+
+        <span asp-validation-for="Notification.Title"
+              class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Notification.Message"
+               class="form-label"></label>
+
+        <textarea asp-for="Notification.Message"
+                  class="form-control"
+                  rows="5"></textarea>
+
+        <span asp-validation-for="Notification.Message"
+              class="text-danger"></span>
+    </div>
+
+    <button type="submit"
+            class="btn btn-success">
+        Send
+    </button>
+
+    <a asp-page="Index"
+       class="btn btn-secondary">
+        Cancel
+    </a>
+
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

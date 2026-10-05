@@ -1,0 +1,267 @@
+﻿@page
+@using System.Text.Json
+@model HealthPolicyManagementSystem.Pages.SubAdmin.DashboardModel
+
+@{
+    ViewData["Title"] = "";
+}
+
+<div class="page-container">
+
+    <div class="row g-4">
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card shadow-sm h-100 dashboard-stat-card">
+
+                <div class="card-body">
+
+                    <div class="stat-label">
+                        Employees
+                    </div>
+
+                    <div class="stat-number">
+                        @Model.TotalEmployees
+                    </div>
+
+                    <div class="stat-accent"></div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card shadow-sm h-100 dashboard-stat-card">
+
+                <div class="card-body">
+
+                    <div class="stat-label">
+                        Departments
+                    </div>
+
+                    <div class="stat-number">
+                        @Model.TotalDepartments
+                    </div>
+
+                    <div class="stat-accent"></div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card shadow-sm h-100 dashboard-stat-card">
+
+                <div class="card-body">
+
+                    <div class="stat-label">
+                        Policies
+                    </div>
+
+                    <div class="stat-number">
+                        @Model.TotalPolicies
+                    </div>
+
+                    <div class="stat-accent"></div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card shadow-sm h-100 dashboard-stat-card">
+
+                <div class="card-body">
+
+                    <div class="stat-label">
+                        Downloads
+                    </div>
+
+                    <div class="stat-number">
+                        @Model.TotalDownloads
+                    </div>
+
+                    <div class="stat-accent"></div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="row g-4 mt-2">
+
+        <div class="col-lg-7">
+
+            <div class="card shadow-sm dashboard-panel h-100">
+
+                <div class="card-header dashboard-panel-header">
+
+                    <div class="panel-title">
+                        Most Engaged Policies
+                    </div>
+
+                </div>
+
+
+                <div class="card-body dashboard-chart-body">
+
+                    @if (Model.MostEngagedPolicyNames.Any())
+                    {
+                        <canvas id="engagedPoliciesChart"></canvas>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+
+                            <div class="empty-state-title">
+                                No policy views yet
+                            </div>
+
+                            <div class="empty-state-text">
+                                Policy interactions will appear here.
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-5">
+
+            <div class="card shadow-sm dashboard-panel h-100">
+
+                <div class="card-header dashboard-panel-header">
+
+                    <div class="panel-title">
+                        Quick Access
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="list-group">
+
+                        <a asp-page="/Policies/Index"
+                           class="list-group-item list-group-item-action">
+
+                            Search Policies
+
+                        </a>
+
+                        <a asp-page="/Notifications/Index"
+                           class="list-group-item list-group-item-action">
+
+                            Notifications
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    @if (Model.MostEngagedPolicyNames.Any())
+    {
+        <script>
+
+            const ctx = document.getElementById('engagedPoliciesChart');
+
+            new Chart(ctx, {
+                type: 'bar',
+
+                data: {
+                    labels: @Html.Raw(
+                        JsonSerializer.Serialize(
+                            Model.MostEngagedPolicyNames)),
+
+                    datasets: [
+                        {
+                            label: 'Interactions',
+
+                            data: @Html.Raw(
+                                JsonSerializer.Serialize(
+                                    Model.MostEngagedPolicyViews)),
+
+                            backgroundColor: '#159BD7',
+
+                            borderRadius: 6,
+
+                            borderSkipped: false
+                        }
+                    ]
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    scales: {
+
+                        y: {
+                            beginAtZero: true,
+
+                            ticks: {
+                                precision: 0,
+                                color: '#718096'
+                            },
+
+                            grid: {
+                                color: '#E8EEF3'
+                            }
+                        },
+
+                        x: {
+                            ticks: {
+                                color: '#263746'
+                            },
+
+                            grid: {
+                                display: false
+                            }
+                        }
+
+                    },
+
+                    plugins: {
+
+                        legend: {
+                            display: false
+                        }
+
+                    }
+                }
+            });
+
+        </script>
+    }
+
+}

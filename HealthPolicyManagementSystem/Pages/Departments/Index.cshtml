@@ -1,0 +1,67 @@
+﻿@page
+@model HealthPolicyManagementSystem.Pages.Departments.IndexModel
+
+@{
+    ViewData["Title"] = "Departments";
+}
+
+<h2>Departments</h2>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">
+        Add Department
+    </a>
+</p>
+
+<table class="table table-bordered table-striped">
+
+    <thead>
+        <tr>
+
+            @if (User.IsInRole("Admin"))
+            {
+                <th>Branch</th>
+            }
+
+            <th>Department Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model.Departments)
+        {
+            <tr>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>@item.Branch?.BranchName</td>
+                }
+
+                <td>@item.DepartmentName</td>
+                <td>@item.Description</td>
+
+                <td>
+
+                    <a asp-page="Edit"
+                       asp-route-id="@item.DepartmentId"
+                       class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+
+                    <a asp-page="Delete"
+                       asp-route-id="@item.DepartmentId"
+                       class="btn btn-danger btn-sm">
+                        Delete
+                    </a>
+
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

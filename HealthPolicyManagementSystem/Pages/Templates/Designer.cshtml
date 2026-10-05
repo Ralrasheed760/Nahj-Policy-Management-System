@@ -1,0 +1,81 @@
+﻿@page
+@model HealthPolicyManagementSystem.Pages.Templates.DesignerModel
+
+@{
+    ViewData["Title"] = "Template Designer";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+<form method="post" enctype="multipart/form-data">
+
+    <div class="mb-3">
+        <label asp-for="Template.TemplateName" class="form-label">
+            Template Name
+        </label>
+
+        <input asp-for="Template.TemplateName"
+               class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Template.FooterText" class="form-label">
+            Footer
+        </label>
+
+        <input asp-for="Template.FooterText"
+               class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="LogoFile" class="form-label">
+            Cluster Logo
+        </label>
+
+        <input asp-for="LogoFile"
+               type="file"
+               class="form-control"
+               accept="image/*" />
+    </div>
+
+    <div class="form-check mb-3">
+        <input asp-for="Template.ShowQR"
+               class="form-check-input" />
+
+        <label asp-for="Template.ShowQR"
+               class="form-check-label">
+            Show QR Code
+        </label>
+    </div>
+
+    <div class="form-check mb-3">
+        <input asp-for="Template.ShowVersion"
+               class="form-check-input" />
+
+        <label asp-for="Template.ShowVersion"
+               class="form-check-label">
+            Show Version
+        </label>
+    </div>
+
+    <div class="form-check mb-4">
+        <input asp-for="Template.ShowDate"
+               class="form-check-input" />
+
+        <label asp-for="Template.ShowDate"
+               class="form-check-label">
+            Show Issue Date
+        </label>
+    </div>
+
+    <button type="submit"
+            class="btn btn-success">
+        Save Template
+    </button>
+
+</form>

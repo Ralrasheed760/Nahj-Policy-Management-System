@@ -1,0 +1,188 @@
+﻿@page
+@model HealthPolicyManagementSystem.Pages.Users.CreateModel
+
+@{
+    ViewData["Title"] = "Add User";
+}
+
+<h2>Add User</h2>
+
+<form method="post">
+
+    <div class="mb-3">
+        <label asp-for="AppUser.FullName"></label>
+        <input asp-for="AppUser.FullName" class="form-control" />
+        <span asp-validation-for="AppUser.FullName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="AppUser.Username"></label>
+        <input asp-for="AppUser.Username" class="form-control" />
+        <span asp-validation-for="AppUser.Username" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="AppUser.Password"></label>
+        <input asp-for="AppUser.Password"
+               type="password"
+               class="form-control" />
+        <span asp-validation-for="AppUser.Password" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="AppUser.Email"></label>
+        <input asp-for="AppUser.Email" class="form-control" />
+        <span asp-validation-for="AppUser.Email" class="text-danger"></span>
+    </div>
+
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="mb-3">
+            <label asp-for="AppUser.Role"></label>
+
+            <select asp-for="AppUser.Role"
+                    class="form-select"
+                    id="AppUser_Role">
+
+                <option value="">Select Role</option>
+                <option value="Admin">Admin</option>
+                <option value="SubAdmin">Sub Admin</option>
+                <option value="Employee">Employee</option>
+
+            </select>
+
+            <span asp-validation-for="AppUser.Role"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3" id="branchDiv">
+
+            <label asp-for="AppUser.BranchID">
+                Branch
+            </label>
+
+            <select asp-for="AppUser.BranchID"
+                    class="form-select"
+                    id="AppUser_BranchID">
+
+                <option value="">Select Branch</option>
+
+                @foreach (var branch in Model.Branches)
+                {
+                    <option value="@branch.BranchID">
+                        @branch.BranchName
+                    </option>
+                }
+
+            </select>
+
+            <span asp-validation-for="AppUser.BranchID"
+                  class="text-danger"></span>
+
+        </div>
+
+        <div class="mb-3" id="departmentDiv">
+
+            <label asp-for="AppUser.DepartmentID">
+                Department
+            </label>
+
+            <select asp-for="AppUser.DepartmentID"
+                    class="form-select"
+                    id="AppUser_DepartmentID">
+
+                <option value="">Select Department</option>
+
+                @foreach (var department in Model.Departments)
+                {
+                    <option value="@department.DepartmentId">
+                        @department.DepartmentName
+                    </option>
+                }
+
+            </select>
+
+            <span asp-validation-for="AppUser.DepartmentID"
+                  class="text-danger"></span>
+
+        </div>
+    }
+    else
+    {
+        <input type="hidden"
+               asp-for="AppUser.Role"
+               value="Employee" />
+
+        <input type="hidden"
+               asp-for="AppUser.BranchID" />
+
+        <input type="hidden"
+               asp-for="AppUser.DepartmentID" />
+
+        <div class="alert alert-info">
+            This user will be created as an Employee in your department.
+        </div>
+    }
+
+    <div class="form-check mb-3">
+
+        <input asp-for="AppUser.IsActive"
+               class="form-check-input" />
+
+        <label asp-for="AppUser.IsActive"
+               class="form-check-label">
+        </label>
+
+    </div>
+
+    <button type="submit"
+            class="btn btn-success">
+        Save
+    </button>
+
+    <a asp-page="Index"
+       class="btn btn-secondary">
+        Cancel
+    </a>
+
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+
+    @if (User.IsInRole("Admin"))
+    {
+        <script>
+
+            const role = document.getElementById("AppUser_Role");
+            const branchDiv = document.getElementById("branchDiv");
+            const departmentDiv = document.getElementById("departmentDiv");
+            const branch = document.getElementById("AppUser_BranchID");
+            const department = document.getElementById("AppUser_DepartmentID");
+
+            function toggleFields() {
+
+                if (role.value === "Admin") {
+
+                    branchDiv.style.display = "none";
+                    departmentDiv.style.display = "none";
+
+                    branch.value = "";
+                    department.value = "";
+
+                } else {
+
+                    branchDiv.style.display = "block";
+                    departmentDiv.style.display = "block";
+
+                }
+            }
+
+            role.addEventListener("change", toggleFields);
+
+            toggleFields();
+
+        </script>
+    }
+}

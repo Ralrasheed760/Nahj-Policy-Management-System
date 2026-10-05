@@ -1,0 +1,62 @@
+﻿@page
+@model HealthPolicyManagementSystem.Pages.Branches.IndexModel
+
+@{
+    ViewData["Title"] = "Branches";
+}
+
+<h2>Branches</h2>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">
+        Add Branch
+    </a>
+</p>
+
+<table class="table table-bordered table-striped">
+
+    <thead>
+        <tr>
+            <th>Branch Name</th>
+            <th>Branch Type</th>
+            <th>Status</th>
+            <th width="220">Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model.Branches)
+        {
+            <tr>
+
+                <td>@item.BranchName</td>
+
+                <td>@item.BranchType</td>
+
+                <td>
+                    @(item.IsActive ? "Active" : "Inactive")
+                </td>
+
+                <td>
+
+                    <a asp-page="Edit"
+                       asp-route-id="@item.BranchID"
+                       class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+
+                    <a asp-page="Delete"
+                       asp-route-id="@item.BranchID"
+                       class="btn btn-danger btn-sm">
+                        Delete
+                    </a>
+
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

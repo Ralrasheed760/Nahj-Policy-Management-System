@@ -1,0 +1,325 @@
+﻿@page
+@using System.Text.Json
+@model HealthPolicyManagementSystem.Pages.Admin.DashboardModel
+
+@{
+    ViewData["Title"] = "";
+}
+
+<div class="page-container">
+
+    <div class="row g-4">
+
+        <div class="col-lg-4 col-md-6">
+            <div class="card shadow-sm h-100 dashboard-stat-card">
+                <div class="card-body">
+
+                    <div class="stat-label">
+                        Active Users
+                    </div>
+
+                    <div class="stat-number">
+                        @Model.TotalUsers
+                    </div>
+
+                    <div class="stat-accent"></div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-4 col-md-6">
+            <div class="card shadow-sm h-100 dashboard-stat-card">
+                <div class="card-body">
+
+                    <div class="stat-label">
+                        Branches
+                    </div>
+
+                    <div class="stat-number">
+                        @Model.TotalBranches
+                    </div>
+
+                    <div class="stat-accent"></div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-4 col-md-6">
+            <div class="card shadow-sm h-100 dashboard-stat-card">
+                <div class="card-body">
+
+                    <div class="stat-label">
+                        Departments
+                    </div>
+
+                    <div class="stat-number">
+                        @Model.TotalDepartments
+                    </div>
+
+                    <div class="stat-accent"></div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-4 col-md-6">
+            <div class="card shadow-sm h-100 dashboard-stat-card">
+                <div class="card-body">
+
+                    <div class="stat-label">
+                        Policies
+                    </div>
+
+                    <div class="stat-number">
+                        @Model.TotalPolicies
+                    </div>
+
+                    <div class="stat-accent"></div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-4 col-md-6">
+            <div class="card shadow-sm h-100 dashboard-stat-card">
+                <div class="card-body">
+
+                    <div class="stat-label">
+                        Downloads
+                    </div>
+
+                    <div class="stat-number">
+                        @Model.TotalDownloads
+                    </div>
+
+                    <div class="stat-accent"></div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-4 col-md-6">
+            <div class="card shadow-sm h-100 dashboard-stat-card">
+                <div class="card-body">
+
+                    <div class="stat-label">
+                        Notifications
+                    </div>
+
+                    <div class="stat-number">
+                        @Model.TotalNotifications
+                    </div>
+
+                    <div class="stat-accent"></div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="row g-4 mt-2">
+
+        <div class="col-lg-7">
+
+            <div class="card shadow-sm dashboard-panel h-100">
+
+                <div class="card-header dashboard-panel-header">
+
+                    <div class="panel-title">
+                        Most Engaged Policies
+                    </div>
+
+                </div>
+
+
+                <div class="card-body dashboard-chart-body">
+
+                    @if (Model.MostReadPolicyNames.Any())
+                    {
+                        <canvas id="mostReadPolicyChart"></canvas>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+
+                            <div class="empty-state-title">
+                                No policy views yet
+                            </div>
+
+                            <div class="empty-state-text">
+                                Policy interactions will appear here.
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-5">
+
+            <div class="card shadow-sm dashboard-panel h-100">
+
+                <div class="card-header dashboard-panel-header">
+
+                    <div class="panel-title">
+                        Latest Activities
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    @if (Model.LatestActivities.Any())
+                    {
+                        <div class="activity-list">
+
+                            @foreach (var item in Model.LatestActivities)
+                            {
+                                <div class="activity-item">
+
+                                    <div class="activity-marker"></div>
+
+                                    <div class="activity-content">
+
+                                        <div class="activity-user">
+                                            @item.UserName
+                                        </div>
+
+                                        <div class="activity-action">
+                                            @item.Action
+                                        </div>
+
+                                        <div class="activity-date">
+                                            @item.Date.ToString("yyyy-MM-dd HH:mm:ss")
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+
+                            <div class="empty-state-title">
+                                No recent activities
+                            </div>
+
+                            <div class="empty-state-text">
+                                System activity will appear here.
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    @if (Model.MostReadPolicyNames.Any())
+    {
+        <script>
+
+            const ctx = document.getElementById('mostReadPolicyChart');
+
+            new Chart(ctx, {
+                type: 'bar',
+
+                data: {
+                    labels: @Html.Raw(
+                        JsonSerializer.Serialize(
+                            Model.MostReadPolicyNames)),
+
+                    datasets: [
+                        {
+                            label: 'Interactions',
+
+                            data: @Html.Raw(
+                                JsonSerializer.Serialize(
+                                    Model.MostReadPolicyCounts)),
+
+                            backgroundColor: '#159BD7',
+
+                            borderRadius: 6,
+
+                            borderSkipped: false
+                        }
+                    ]
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    scales: {
+
+                        y: {
+                            beginAtZero: true,
+
+                            ticks: {
+                                precision: 0,
+                                color: '#718096'
+                            },
+
+                            grid: {
+                                color: '#E8EEF3'
+                            }
+                        },
+
+                        x: {
+                            ticks: {
+                                color: '#263746'
+                            },
+
+                            grid: {
+                                display: false
+                            }
+                        }
+
+                    },
+
+                    plugins: {
+
+                        legend: {
+                            display: false
+                        }
+
+                    }
+                }
+            });
+
+        </script>
+    }
+
+}

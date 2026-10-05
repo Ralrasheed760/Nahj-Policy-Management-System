@@ -1,0 +1,76 @@
+﻿@page
+@model HealthPolicyManagementSystem.Pages.Users.IndexModel
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<h2>Users</h2>
+
+<p>
+    @if (User.IsInRole("Admin") || User.IsInRole("SubAdmin"))
+    {
+        <a asp-page="Create" class="btn btn-primary">
+            Add User
+        </a>
+    }
+</p>
+
+<table class="table table-bordered table-striped">
+
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Active</th>
+
+            @if (User.IsInRole("Admin"))
+            {
+                <th>Branch</th>
+            }
+
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model.Users)
+        {
+            <tr>
+
+                <td>@item.FullName</td>
+                <td>@item.Username</td>
+                <td>@item.Email</td>
+                <td>@item.Role</td>
+                <td>@(item.IsActive ? "Yes" : "No")</td>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>@item.BranchID</td>
+                }
+
+                <td>
+
+                    <a asp-page="Edit"
+                       asp-route-id="@item.UserID"
+                       class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+
+                    <a asp-page="Delete"
+                       asp-route-id="@item.UserID"
+                       class="btn btn-danger btn-sm">
+                        Delete
+                    </a>
+
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

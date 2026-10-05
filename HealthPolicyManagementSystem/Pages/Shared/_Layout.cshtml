@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - نَهْج</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/HealthPolicyManagementSystem.styles.css" asp-append-version="true" />
+</head>
+
+<body>
+
+    <header>
+
+        <nav class="navbar navbar-dark custom-navbar shadow">
+
+            <div class="container-fluid d-flex align-items-center">
+
+                <button class="btn btn-outline-light me-3"
+                        type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#menu"
+                        aria-controls="menu"
+                        aria-label="Open menu">
+                    ☰
+                </button>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-page="/Admin/Dashboard"
+                       class="navbar-brand project-name mb-0">
+                        نَهْج
+                    </a>
+                }
+                else if (User.IsInRole("SubAdmin"))
+                {
+                    <a asp-page="/SubAdmin/Dashboard"
+                       class="navbar-brand project-name mb-0">
+                        نَهْج
+                    </a>
+                }
+                else
+                {
+                    <a asp-page="/Employee/Dashboard"
+                       class="navbar-brand project-name mb-0">
+                        نَهْج
+                    </a>
+                }
+
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <div class="d-flex align-items-center ms-auto">
+
+                        <span class="text-white me-3">
+                            Welcome,
+                            <strong>@User.FindFirst("FullName")?.Value</strong>
+                        </span>
+
+                        <a asp-page="/Account/Logout"
+                           class="btn btn-light btn-sm">
+                            Logout
+                        </a>
+
+                    </div>
+                }
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <div class="offcanvas offcanvas-start"
+             tabindex="-1"
+             id="menu"
+             aria-labelledby="menu">
+
+            <div class="offcanvas-header">
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="offcanvas"
+                        aria-label="Close">
+                </button>
+
+            </div>
+
+            <div class="offcanvas-body">
+
+                <div class="list-group list-group-flush">
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-page="/Admin/Dashboard"
+                           class="list-group-item list-group-item-action">
+                            Home
+                        </a>
+
+                        <a asp-page="/Users/Index"
+                           class="list-group-item list-group-item-action">
+                            Users
+                        </a>
+
+                        <a asp-page="/Departments/Index"
+                           class="list-group-item list-group-item-action">
+                            Departments
+                        </a>
+
+                        <a asp-page="/Policies/Index"
+                           class="list-group-item list-group-item-action">
+                            Policies
+                        </a>
+
+                        <a asp-page="/Notifications/Index"
+                           class="list-group-item list-group-item-action">
+                            Notifications
+                        </a>
+
+                        <a asp-page="/ActivityLogs/Index"
+                           class="list-group-item list-group-item-action">
+                            Activity Logs
+                        </a>
+
+                        <a asp-page="/Branches/Index"
+                           class="list-group-item list-group-item-action">
+                            Branches
+                        </a>
+
+                        <a asp-page="/Templates/Designer"
+                           class="list-group-item list-group-item-action">
+                            Template Designer
+                        </a>
+                    }
+
+
+                    @if (User.IsInRole("SubAdmin"))
+                    {
+                        <a asp-page="/SubAdmin/Dashboard"
+                           class="list-group-item list-group-item-action">
+                            Home
+                        </a>
+
+                        <a asp-page="/Users/Index"
+                           class="list-group-item list-group-item-action">
+                            Users
+                        </a>
+
+                        <a asp-page="/Departments/Index"
+                           class="list-group-item list-group-item-action">
+                            Departments
+                        </a>
+
+                        <a asp-page="/Policies/Index"
+                           class="list-group-item list-group-item-action">
+                            Policies
+                        </a>
+
+                        <a asp-page="/Notifications/Index"
+                           class="list-group-item list-group-item-action">
+                            Notifications
+                        </a>
+
+                        <a asp-page="/ActivityLogs/Index"
+                           class="list-group-item list-group-item-action">
+                            Activity Logs
+                        </a>
+                    }
+
+
+                    @if (User.IsInRole("Employee"))
+                    {
+                        <a asp-page="/Employee/Dashboard"
+                           class="list-group-item list-group-item-action">
+                            Home
+                        </a>
+
+                        <a asp-page="/Policies/Index"
+                           class="list-group-item list-group-item-action">
+                            Policies
+                        </a>
+
+                        <a asp-page="/Notifications/Index"
+                           class="list-group-item list-group-item-action">
+                            Notifications
+                        </a>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+
+    <div class="container-fluid px-5 pt-3">
+
+        <main role="main">
+            @RenderBody()
+        </main>
+
+    </div>
+
+
+    <footer class="border-top footer text-muted">
+
+        <div class="container text-center">
+
+            تنفيذ وتصميم إدارة حلول الأعمال – الصحة الرقمية • تجمع القصيم الصحي © 2026
+
+        </div>
+
+    </footer>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

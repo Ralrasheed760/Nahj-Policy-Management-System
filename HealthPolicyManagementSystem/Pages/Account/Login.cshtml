@@ -1,0 +1,273 @@
+﻿@page
+@model HealthPolicyManagementSystem.Pages.Account.LoginModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Login - نَهْج</title>
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #f4f7fa;
+            font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+            color: #243746;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-header {
+            width: 100%;
+            padding: 28px 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .project-name {
+            font-size: 30px;
+            font-weight: 700;
+            color: #123f68;
+            letter-spacing: 1px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-container img {
+            height: 78px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .login-area {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .login-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 42px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .login-title {
+            text-align: center;
+            color: #123f68;
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 35px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #263746;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            height: 48px;
+            border-radius: 8px;
+            border: 1px solid #d8e0e6;
+            font-size: 15px;
+        }
+
+        .form-control:focus {
+            border-color: #123f68;
+            box-shadow: 0 0 0 0.15rem rgba(18, 63, 104, 0.12);
+        }
+
+        .login-button {
+            width: 100%;
+            height: 48px;
+            background: #123f68;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 8px;
+            transition: 0.2s ease;
+        }
+
+        .login-button:hover {
+            background: #0e3355;
+        }
+
+        .error-message {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 7px;
+            background: #fbe9eb;
+            color: #b02a37;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .footer {
+            width: 100%;
+            text-align: center;
+            padding: 20px 20px 25px;
+            color: #667783;
+            font-size: 14px;
+        }
+
+        .footer-line {
+            margin-bottom: 6px;
+        }
+
+        .footer-year {
+            color: #8a969f;
+            font-size: 13px;
+        }
+
+        @@media (max-width: 768px) {
+
+            .top-header {
+                padding: 22px 25px;
+            }
+
+            .project-name {
+                font-size: 25px;
+            }
+
+            .logo-container img {
+                height: 65px;
+            }
+
+            .login-card {
+                padding: 32px 25px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <header class="top-header">
+
+        <div class="project-name">
+            نَهْج
+        </div>
+
+        <div class="logo-container">
+
+            <img src="~/images/nahj-logo.png.png"
+                 asp-append-version="true"
+                 alt="Nahj Logo" />
+
+        </div>
+
+    </header>
+
+
+    <div class="login-area">
+
+        <div class="login-container">
+
+            <div class="login-card">
+
+                <h2 class="login-title">
+                    Login
+                </h2>
+
+                @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+                {
+                    <div class="error-message">
+                        @Model.ErrorMessage
+                    </div>
+                }
+
+                <form method="post">
+
+                    <div class="mb-3">
+
+                        <label asp-for="Username"
+                               class="form-label">
+                            Username
+                        </label>
+
+                        <input asp-for="Username"
+                               class="form-control"
+                               autocomplete="username" />
+
+                    </div>
+
+
+                    <div class="mb-4">
+
+                        <label asp-for="Password"
+                               class="form-label">
+                            Password
+                        </label>
+
+                        <input asp-for="Password"
+                               type="password"
+                               class="form-control"
+                               autocomplete="current-password" />
+
+                    </div>
+
+
+                    <button type="submit"
+                            class="login-button">
+                        Login
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <footer class="footer">
+
+        <div class="footer-line">
+            تنفيذ وتصميم إدارة حلول الأعمال – الصحة الرقمية
+        </div>
+
+        <div class="footer-line">
+            تجمع القصيم الصحي
+        </div>
+
+        <div class="footer-year">
+            © 2026
+        </div>
+
+    </footer>
+
+
+</body>
+</html>

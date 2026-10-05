@@ -1,0 +1,182 @@
+﻿@page
+@model HealthPolicyManagementSystem.Pages.Policies.IndexModel
+
+@{
+    ViewData["Title"] = "Policies";
+}
+
+<h2>Policies</h2>
+
+<form method="get" class="row mb-3">
+
+    <div class="col-md-4">
+        <input asp-for="Search"
+               class="form-control"
+               placeholder="Search by title or description..." />
+    </div>
+
+    <div class="col-md-3">
+
+        <select asp-for="DepartmentFilter"
+                class="form-select">
+
+            <option value="">All Departments</option>
+
+            @foreach (var department in Model.DepartmentList)
+            {
+                <option value="@department.DepartmentId">
+                    @department.DepartmentName
+                </option>
+            }
+
+        </select>
+
+    </div>
+
+    <div class="col-md-2">
+
+        <select asp-for="SortBy"
+                class="form-select">
+
+            <option value="">Newest</option>
+            <option value="Oldest">Oldest</option>
+            <option value="Title">Title (A-Z)</option>
+
+        </select>
+
+    </div>
+
+    <div class="col-md-auto">
+
+        <button type="submit"
+                class="btn btn-primary">
+            Search
+        </button>
+
+        <a asp-page="Index"
+           class="btn btn-secondary">
+            Reset
+        </a>
+
+    </div>
+
+</form>
+
+@if (User.IsInRole("Admin") || User.IsInRole("SubAdmin"))
+{
+    <p>
+
+        <a asp-page="Create"
+           class="btn btn-primary">
+            Add Policy
+        </a>
+
+    </p>
+}
+
+<table class="table table-bordered table-striped">
+
+    <thead>
+
+        <tr>
+
+            <th>Title</th>
+            <th>Department</th>
+            <th>Version</th>
+            <th>Effective Date</th>
+            <th>Upload Date</th>
+            <th>Actions</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @if (Model.Policies.Any())
+        {
+            @foreach (var item in Model.Policies)
+            {
+                bool canManage = User.IsInRole("Admin") ||
+                                 (User.IsInRole("SubAdmin") &&
+                                  Model.UserDepartmentID == item.DepartmentID);
+
+                <tr>
+
+                    <td>
+                        @item.Title
+                    </td>
+
+                    <td>
+                        @(Model.Departments.ContainsKey(item.DepartmentID)
+                            ? Model.Departments[item.DepartmentID]
+                            : "Unknown")
+                    </td>
+
+                    <td>
+                        @item.Version
+                    </td>
+
+                    <td>
+                        @item.EffectiveDate.ToString("yyyy-MM-dd")
+                    </td>
+
+                    <td>
+                        @item.UploadDate.ToString("yyyy-MM-dd")
+                    </td>
+
+                    <td>
+
+                        <a asp-page="Details"
+                           asp-route-id="@item.PolicyID"
+                           class="btn btn-info btn-sm">
+                            Details
+                        </a>
+
+                        <a asp-page="PreviewPdf"
+                           asp-route-id="@item.PolicyID"
+                           class="btn btn-success btn-sm">
+                            Preview PDF
+                        </a>
+
+                        @if (canManage)
+                        {
+                            <a asp-page="Edit"
+                               asp-route-id="@item.PolicyID"
+                               class="btn btn-warning btn-sm">
+                                Edit
+                            </a>
+
+                            <a asp-page="Delete"
+                               asp-route-id="@item.PolicyID"
+                               class="btn btn-danger btn-sm">
+                                Delete
+                            </a>
+
+                            <a asp-page="/PolicyVersions/Index"
+                               asp-route-policyId="@item.PolicyID"
+                               class="btn btn-secondary btn-sm">
+                                History
+                            </a>
+                        }
+
+                    </td>
+
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+
+                <td colspan="6"
+                    class="text-center text-danger fw-bold">
+                    No policies found.
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

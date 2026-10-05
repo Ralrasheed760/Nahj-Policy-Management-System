@@ -1,0 +1,98 @@
+﻿@page
+@model HealthPolicyManagementSystem.Pages.Policies.CreateModel
+
+@{
+    ViewData["Title"] = "Add Policy";
+}
+
+<h2>Add Policy</h2>
+
+<form method="post" enctype="multipart/form-data">
+
+    <div class="mb-3">
+        <label asp-for="PolicyVM.Title" class="form-label"></label>
+        <input asp-for="PolicyVM.Title" class="form-control" />
+        <span asp-validation-for="PolicyVM.Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PolicyVM.Description" class="form-label"></label>
+        <textarea asp-for="PolicyVM.Description"
+                  class="form-control"
+                  rows="4"></textarea>
+        <span asp-validation-for="PolicyVM.Description"
+              class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PolicyVM.DepartmentID"
+               class="form-label">
+            Department
+        </label>
+
+        <select asp-for="PolicyVM.DepartmentID"
+                asp-items="Model.PolicyVM.Departments"
+                class="form-select">
+
+            <option value="">-- Select Department --</option>
+
+        </select>
+
+        <span asp-validation-for="PolicyVM.DepartmentID"
+              class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PolicyVM.EffectiveDate"
+               class="form-label"></label>
+
+        <input asp-for="PolicyVM.EffectiveDate"
+               type="date"
+               class="form-control" />
+
+        <span asp-validation-for="PolicyVM.EffectiveDate"
+              class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PolicyVM.Version"
+               class="form-label"></label>
+
+        <input asp-for="PolicyVM.Version"
+               class="form-control" />
+
+        <span asp-validation-for="PolicyVM.Version"
+              class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PolicyVM.PolicyFile"
+               class="form-label">
+            Policy Document (.docx)
+        </label>
+
+        <input asp-for="PolicyVM.PolicyFile"
+               type="file"
+               class="form-control"
+               accept=".docx" />
+
+        <span asp-validation-for="PolicyVM.PolicyFile"
+              class="text-danger"></span>
+    </div>
+
+    <button type="submit"
+            class="btn btn-success">
+        Save
+    </button>
+
+    <a asp-page="Index"
+       class="btn btn-secondary">
+        Cancel
+    </a>
+
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

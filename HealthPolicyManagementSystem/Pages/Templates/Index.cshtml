@@ -1,0 +1,83 @@
+﻿@page
+@model HealthPolicyManagementSystem.Pages.Templates.IndexModel
+
+@{
+    ViewData["Title"] = "Templates";
+}
+
+<h2>Templates</h2>
+
+<p>
+    <a asp-page="Designer" class="btn btn-primary">
+        Create Template
+    </a>
+</p>
+
+<table class="table table-bordered table-striped">
+
+    <thead>
+        <tr>
+            <th>Template Name</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th>Updated</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @if (Model.Templates.Any())
+        {
+            @foreach (var item in Model.Templates)
+            {
+                <tr>
+
+                    <td>@item.TemplateName</td>
+
+                    <td>
+                        @if (item.IsActive)
+                        {
+                            <span class="badge bg-success">
+                                Active
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                Inactive
+                            </span>
+                        }
+                    </td>
+
+                    <td>@item.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+
+                    <td>
+                        @(item.UpdatedAt?.ToString("yyyy-MM-dd HH:mm") ?? "-")
+                    </td>
+
+                    <td>
+
+                        <a asp-page="Designer"
+                           asp-route-id="@item.TemplateID"
+                           class="btn btn-warning btn-sm">
+                            Designer
+                        </a>
+
+                    </td>
+
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center text-muted">
+                    No templates found.
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>

@@ -1,0 +1,71 @@
+﻿@page
+@model HealthPolicyManagementSystem.Pages.Departments.CreateModel
+
+@{
+    ViewData["Title"] = "Add Department";
+}
+
+<h2>Add Department</h2>
+
+<form method="post">
+
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="mb-3">
+
+            <label asp-for="Department.BranchID"></label>
+
+            <select asp-for="Department.BranchID"
+                    asp-items="Model.Branches"
+                    class="form-select">
+
+                <option value="">-- Select Branch --</option>
+
+            </select>
+
+            <span asp-validation-for="Department.BranchID"
+                  class="text-danger"></span>
+
+        </div>
+    }
+
+    <div class="mb-3">
+
+        <label asp-for="Department.DepartmentName"></label>
+
+        <input asp-for="Department.DepartmentName"
+               class="form-control" />
+
+        <span asp-validation-for="Department.DepartmentName"
+              class="text-danger"></span>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label asp-for="Department.Description"></label>
+
+        <textarea asp-for="Department.Description"
+                  class="form-control"></textarea>
+
+        <span asp-validation-for="Department.Description"
+              class="text-danger"></span>
+
+    </div>
+
+    <button type="submit"
+            class="btn btn-success">
+        Save
+    </button>
+
+    <a asp-page="Index"
+       class="btn btn-secondary">
+        Cancel
+    </a>
+
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

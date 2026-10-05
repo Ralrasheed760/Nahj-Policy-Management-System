@@ -1,0 +1,69 @@
+﻿@page "{id:int}"
+@model HealthPolicyManagementSystem.Pages.Policies.DetailsModel
+
+@{
+    ViewData["Title"] = "Policy Details";
+}
+
+<h2>Policy Details</h2>
+
+<hr />
+
+<div class="mb-3">
+    <label class="form-label fw-bold">Title</label>
+    <input class="form-control" value="@Model.Policy.Title" readonly />
+</div>
+
+<div class="mb-3">
+    <label class="form-label fw-bold">Description</label>
+    <textarea class="form-control" rows="4" readonly>@Model.Policy.Description</textarea>
+</div>
+
+<div class="mb-3">
+    <label class="form-label fw-bold">Department</label>
+    <input class="form-control" value="@Model.DepartmentName" readonly />
+</div>
+
+<div class="mb-3">
+    <label class="form-label fw-bold">Branch</label>
+    <input class="form-control" value="@Model.BranchName" readonly />
+</div>
+
+<div class="mb-3">
+    <label class="form-label fw-bold">Effective Date</label>
+    <input class="form-control"
+           value="@Model.Policy.EffectiveDate.ToString("yyyy-MM-dd")"
+           readonly />
+</div>
+
+<div class="mb-3">
+    <label class="form-label fw-bold">Version</label>
+    <input class="form-control" value="@Model.Policy.Version" readonly />
+</div>
+
+<div class="mb-3">
+    <label class="form-label fw-bold">Uploaded By</label>
+    <input class="form-control" value="@Model.Policy.UploadedBy" readonly />
+</div>
+
+<div class="mb-3">
+    <label class="form-label fw-bold">Upload Date</label>
+    <input class="form-control"
+           value="@Model.Policy.UploadDate.ToString("yyyy-MM-dd HH:mm")"
+           readonly />
+</div>
+
+<div class="mb-3">
+    <label class="form-label fw-bold">Policy File</label>
+    <br />
+
+    <a asp-page="Download"
+       asp-route-id="@Model.Policy.PolicyID"
+       class="btn btn-success">
+        Download PDF
+    </a>
+</div>
+
+<a asp-page="Index" class="btn btn-secondary">
+    Back
+</a>

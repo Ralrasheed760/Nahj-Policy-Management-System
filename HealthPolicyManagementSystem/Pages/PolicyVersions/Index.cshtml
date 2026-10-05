@@ -1,0 +1,68 @@
+﻿@page
+@model HealthPolicyManagementSystem.Pages.PolicyVersions.IndexModel
+
+@{
+    ViewData["Title"] = "Policy Versions";
+}
+
+<h2>Policy Versions</h2>
+
+<table class="table table-bordered table-striped">
+
+    <thead>
+        <tr>
+            <th>Policy Title</th>
+            <th>Version</th>
+            <th>File</th>
+            <th>Uploaded By</th>
+            <th>Created At</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @if (Model.PolicyVersions.Any())
+        {
+            @foreach (var item in Model.PolicyVersions)
+            {
+                <tr>
+
+                    <td>
+                        @(Model.PolicyTitles.ContainsKey(item.PolicyID)
+                            ? Model.PolicyTitles[item.PolicyID]
+                            : "Unknown")
+                    </td>
+
+                    <td>@item.VersionNumber</td>
+
+                    <td>
+                        <a href="@item.FilePath"
+                           target="_blank"
+                           class="btn btn-primary btn-sm">
+                            Open PDF
+                        </a>
+                    </td>
+
+                    <td>
+                        @(Model.UserNames.ContainsKey(item.CreatedBy)
+                            ? Model.UserNames[item.CreatedBy]
+                            : "Unknown")
+                    </td>
+
+                    <td>@item.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center text-muted">
+                    No previous versions found.
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
